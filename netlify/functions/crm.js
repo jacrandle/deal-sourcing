@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: CORS_HEADERS, body: "" };
   }
 
-  const sql = postgres(process.env.NETLIFY_DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.DATABASE_URL, { ssl: "require", max: 1 });
+  const sql = postgres(process.env.NETLIFY_DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.DATABASE_URL, { ssl: "require", max: 1, types: { numeric: { to: 1700, from: [1700, 1231], serialize: x => x, parse: x => parseFloat(x) } } });
 
   try {
     const method = event.httpMethod;

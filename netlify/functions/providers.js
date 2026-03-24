@@ -27,7 +27,7 @@ exports.handler = async (event) => {
   const sortBy = VALID_SORT_COLS.has(params.sort_by) ? params.sort_by : "composite";
   const limit = Math.min(parseInt(params.limit) || 200, 500);
 
-  const sql = postgres(process.env.NETLIFY_DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.DATABASE_URL, { ssl: "require", max: 1 });
+  const sql = postgres(process.env.NETLIFY_DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.DATABASE_URL, { ssl: "require", max: 1, types: { numeric: { to: 1700, from: [1700, 1231], serialize: x => x, parse: x => parseFloat(x) } } });
 
   try {
     const rows = await sql`
