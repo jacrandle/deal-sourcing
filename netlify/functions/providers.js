@@ -71,7 +71,7 @@ exports.handler = async (event) => {
         ORDER BY report_year DESC
         LIMIT 1
       ) f ON true
-      LEFT JOIN crm_pipeline cp USING (entity_id)
+      LEFT JOIN crm_pipeline cp ON cp.entity_id = e.entity_id
       WHERE e.is_active = true
         ${tier ? sql`AND s.tier = ${tier}` : sql``}
       ORDER BY ${sql(sortBy)} DESC NULLS LAST
