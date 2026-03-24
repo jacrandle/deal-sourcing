@@ -52,7 +52,7 @@ export default function Universe() {
   );
 
   const providers = useMemo(() => {
-    if (!data) return [];
+    if (!Array.isArray(data)) return [];
     if (!search) return data;
     const q = search.toLowerCase();
     return data.filter(

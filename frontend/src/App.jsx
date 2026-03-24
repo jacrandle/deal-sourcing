@@ -6,6 +6,31 @@ import IntelligenceBrief from "./views/IntelligenceBrief.jsx";
 import RunPipeline from "./views/RunPipeline.jsx";
 import { COLORS } from "./components/shared/ui.jsx";
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error: error.message };
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: 32, color: COLORS.danger, background: "#2d1515", borderRadius: 8, margin: 24 }}>
+          <strong>Render error:</strong> {this.state.error}
+          <div style={{ marginTop: 12 }}>
+            <button onClick={() => this.setState({ error: null })} style={{ color: COLORS.accent, background: "none", border: "none", cursor: "pointer" }}>
+              Try again
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const NAV_ITEMS = [
   { id: "command", label: "Command Center", icon: "⬡" },
   { id: "universe", label: "Universe", icon: "◉" },
@@ -126,7 +151,7 @@ export default function App() {
           maxWidth: "100%",
         }}
       >
-        {renderView()}
+        <ErrorBoundary key={activeView}>{renderView()}</ErrorBoundary>
       </main>
     </div>
   );
