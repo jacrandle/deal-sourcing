@@ -21,7 +21,7 @@ exports.handler = async (event) => {
     };
   }
 
-  const sql = postgres(process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL || process.env.NEON_DATABASE_URL, { ssl: "require", max: 1 });
+  const sql = postgres(process.env.NETLIFY_DATABASE_URL || process.env.NEON_DATABASE_URL || process.env.DATABASE_URL, { ssl: "require", max: 1 });
 
   try {
     const [provider] = await sql`
